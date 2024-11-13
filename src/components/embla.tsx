@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, ReactNode } from "react";
+import React, { ReactNode } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 
 interface EmblaSlideProps {
@@ -34,7 +34,7 @@ export function EmblaContainer({ children }: EmblaContainerProps) {
 }
 
 export function Embla({ children }: EmblaProps) {
-  const [emblaRef, emblaApi] = useEmblaCarousel();
+  const [emblaRef] = useEmblaCarousel();
 
   return (
     <>
