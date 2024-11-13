@@ -23,7 +23,7 @@ export function EmblaSlide({
   children,
 }: EmblaSlideProps) {
   return (
-    <li onClick={onClick} className={`embla__slide px-2 py-4 ${className}`}>
+    <li onClick={onClick} className={`embla__slide py-4 ${className}`}>
       {children}
     </li>
   );
