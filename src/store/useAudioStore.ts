@@ -1,7 +1,16 @@
+"use client";
+
 import { create } from 'zustand';
 import Hls from 'hls.js';
 import { StaticImageData } from 'next/image';
 
+// localStorage 접근을 위한 안전한 함수
+const getInitialVolume = () => {
+  if (typeof window !== 'undefined') {
+    return Number(localStorage.getItem('radio-volume')) || 1;
+  }
+  return 1;
+};
 
 interface Station {
   id: string;
@@ -55,7 +64,7 @@ export const useAudioStore = create<AudioStore>((set, get) => ({
   currentStation: null,
   isPlaying: false,
   isLoading: false,
-  volume: Number(localStorage.getItem('radio-volume')) || 1,
+  volume: getInitialVolume(),  // 초기값 설정
   hls: null,
   audioElement: null,
   recentStations: loadRecentStations(),
