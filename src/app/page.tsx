@@ -11,7 +11,7 @@ export default function Home() {
 
   return (
     <>
-      <header className="py-8 px-8 sticky top-0 bg-white z-[100]">
+      <header className="py-8 px-8 sticky top-0 bg-background z-[100]">
         <h1 className="text-4xl font-bold">
           <img src="/images/logo/logo-text.svg" width={160} alt="Moradio" />
         </h1>
@@ -64,7 +64,7 @@ export default function Home() {
           </section>
         ))}
       </main>
-      <footer className="py-4 bg-white sticky bottom-0 z-[100] shadow-inner">
+      <footer className="py-4 bg-background sticky bottom-0 z-[100] shadow-inner">
         <MiniPlayer />
       </footer>
     </>
