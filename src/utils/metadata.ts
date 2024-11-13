@@ -2,8 +2,8 @@ export function generateMetadata({
   title = "Moradio",
   description = "모든 라디오를 한 곳에서, Moradio!",
   currentUrl = "https://moradio.jihun.io",
-  metadataBase = "https://moradio.jihun.io",
-}) {
+  metadataBase = "https://moradio.jihun.io"
+} = {}) {
   return {
     metadataBase: new URL(metadataBase),
     title: title,
