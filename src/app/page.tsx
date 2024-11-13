@@ -63,6 +63,22 @@ export default function Home() {
             </Embla>
           </section>
         ))}
+        <section className="pt-16 pb-4 text-xs">
+          <h2 className="sr-only">Moradio에 관하여...</h2>
+          <hr className="py-4" />
+          <p className="mb-4">
+            <q>모두 모아둔 모두의 라디오, Moradio.</q>
+          </p>
+          <p>
+            Moradio는 각 방송사의 공개된 라디오 스트리밍 URL을 접속자의
+            디바이스로 중개하는 애플리케이션이며, Moradio는 방송을 절대
+            녹취하거나 재송신하지 않습니다.
+          </p>
+          <p>라디오 방송의 저작권은 각 방송사에게 있습니다.</p>
+          <p className="mt-4">
+            Copyright © 2024 Jihun Kim. All rights reserved.
+          </p>
+        </section>
       </main>
       <footer className="py-4 bg-background sticky bottom-0 z-[100] shadow-inner">
         <MiniPlayer />
