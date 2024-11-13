@@ -11,7 +11,7 @@ export default function Home() {
 
   return (
     <>
-      <header className="py-8 px-8 sticky top-0 bg-background z-[100]">
+      <header className="py-8 px-8 sticky top-0 bg-background z-[100] shadow-sm">
         <h1 className="text-4xl font-bold">
           <img src="/images/logo/logo-text.svg" width={160} alt="Moradio" />
         </h1>
