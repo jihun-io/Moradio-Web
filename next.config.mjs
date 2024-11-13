@@ -1,4 +1,6 @@
 // next.config.js
+import { setupDevPlatform } from "@cloudflare/next-on-pages/next-dev";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   async rewrites() {
@@ -11,5 +13,9 @@ const nextConfig = {
   },
   trailingSlash: true, // 모든 URL에 끝에 슬래시 추가
 };
+
+if (process.env.NODE_ENV === "development") {
+  await setupDevPlatform();
+}
 
 export default nextConfig;
