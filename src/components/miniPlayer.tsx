@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef, ReactNode } from "react";
+import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import { useAudioStore } from "@/store/useAudioStore";
 
