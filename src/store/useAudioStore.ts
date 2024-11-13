@@ -125,15 +125,55 @@ export const useAudioStore = create<AudioStore>((set, get) => ({
   },
 
   togglePlay: () => {
-    const { audioElement, isPlaying } = get();
-    if (audioElement) {
-      if (isPlaying) {
-        audioElement.pause();
-      } else {
-        audioElement.play();
+    const { audioElement, isPlaying, hls, currentStation } = get();
+    if (!audioElement) return;
+  
+    if (isPlaying) {
+      // 완전 정지
+      if (hls) {
+        hls.destroy();
+        set({ hls: null });
       }
-      set({ isPlaying: !isPlaying });
-
+      audioElement.src = '';
+      audioElement.load();
+      set({ isPlaying: false });
+    } else if (currentStation) {
+      // 재시작
+      set({ isLoading: true });
+      
+      fetch(`/radio-proxy/stream/${currentStation.streamUrl}`)
+        .then(response => {
+          const finalUrl = response.url;
+          
+          if (Hls.isSupported()) {
+            const newHls = new Hls();
+            newHls.loadSource(finalUrl);
+            newHls.attachMedia(audioElement);
+  
+            newHls.on(Hls.Events.MANIFEST_PARSED, () => {
+              audioElement.play().catch(console.error);
+              set({ 
+                hls: newHls,
+                isPlaying: true,
+                isLoading: false
+              });
+            });
+          } else if (audioElement.canPlayType('application/vnd.apple.mpegurl')) {
+            audioElement.src = finalUrl;
+            audioElement.play()
+              .then(() => {
+                set({ 
+                  isPlaying: true,
+                  isLoading: false
+                });
+              })
+              .catch(console.error);
+          }
+        })
+        .catch(error => {
+          console.error('Failed to restart playback:', error);
+          set({ isLoading: false });
+        });
     }
   },
 
