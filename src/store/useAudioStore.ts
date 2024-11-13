@@ -14,6 +14,7 @@ interface Station {
 interface AudioStore {
   currentStation: Station | null;
   isPlaying: boolean;
+  isLoading: boolean;
   volume: number;
   hls: Hls | null;  // any 대신 Hls 타입 사용
   audioElement: HTMLAudioElement | null;
@@ -53,6 +54,7 @@ const saveRecentStations = (stations: Station[]) => {
 export const useAudioStore = create<AudioStore>((set, get) => ({
   currentStation: null,
   isPlaying: false,
+  isLoading: false,
   volume: Number(localStorage.getItem('radio-volume')) || 1,
   hls: null,
   audioElement: null,
@@ -62,6 +64,7 @@ export const useAudioStore = create<AudioStore>((set, get) => ({
     const { hls, audioElement, recentStations } = get();  // recentStations를 get()에서 가져오기
 
     try {
+      set({ isLoading: true });
       // 최근 재생 목록 업데이트
       const updatedHistory = [
         station,
@@ -92,7 +95,9 @@ export const useAudioStore = create<AudioStore>((set, get) => ({
             currentStation: station,
             recentStations: updatedHistory,  // 상태 업데이트에 최근 재생 목록 추가
             hls: newHls,
-            isPlaying: true 
+            isPlaying: true,
+            isLoading: false
+
           });
         });
       } else if (audioElement?.canPlayType('application/vnd.apple.mpegurl')) {
@@ -106,7 +111,7 @@ export const useAudioStore = create<AudioStore>((set, get) => ({
       }
     } catch (error) {
       console.error('Failed to load station:', error);
-      set({ isPlaying: false });
+      set({ isPlaying: false, isLoading: false });
     }
   },
 
@@ -119,6 +124,7 @@ export const useAudioStore = create<AudioStore>((set, get) => ({
         audioElement.play();
       }
       set({ isPlaying: !isPlaying });
+
     }
   },
 
