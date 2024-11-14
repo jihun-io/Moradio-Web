@@ -24,9 +24,10 @@
 - Next.js
 - React
 - TypeScript
-- Tailwind CSS
+- Zustand
 - Cloudflare Workers
 - Cloudflare Pages
+- Tailwind CSS
 
 ## 3. 주요 기능
 
