@@ -24,15 +24,14 @@
 - Next.js
 - React
 - TypeScript
-- Zustand
+- Tailwind CSS
 - Cloudflare Workers
 - Cloudflare Pages
-- Tailwind CSS
 
 ## 3. 주요 기능
 
 - 수도권 지상파 3사 및 기타 수도권 방송국의 라디오 스트리밍 URL을 재생할 수 있습니다.
-- 최근 재생한 방송국 목록이 LocalStorage에 저장됩니다.
+- 최근 재생한 방송국 목록이 저장됩니다.
 - 다크 모드 및 반응형 웹을 지원합니다.
 
 ## 4. 도움을 주신 분
@@ -42,7 +41,71 @@
 - 참고한 블로그 게시글은 다음과 같습니다: https://blog.bsod.kr/137
 - 참고한 GitHub 리포지토리는 다음과 같습니다: https://github.com/BSofDeath/radio.bsod.kr
 
-## 5. 참고 사항
+## 5. 방송사 목록
+
+- KBS
+  - KBS 1라디오
+  - KBS 2라디오
+  - KBS 3라디오
+  - KBS 1FM
+  - KBS 2FM
+  - KBS 한민족방송
+- MBC
+
+  - MBC 표준FM
+  - MBC FM4U
+
+- SBS
+
+  - SBS 러브FM
+  - SBS 파워FM
+
+- EBS
+
+  - EBS FM
+
+- 지역방송
+
+  - OBS 라디오
+  - 경인방송
+
+- YTN
+
+  - YTN 라디오
+
+- TBS
+
+  - TBS eFM
+  - TBS FM
+
+- TBN
+
+  - TBN 경인교통방송
+
+- CBS
+
+  - CBS 음악FM
+  - CBS 표준FM
+  - CBS JOY4U
+
+- 종교방송
+
+  - FEBC 서울극동방송
+  - BBS 서울불교방송
+  - CPBC 가톨릭평화방송
+  - WBS 서울원음방송
+
+- 특수방송
+  - 국방FM
+  - 국악방송
+  - AFN FM Humphreys
+
+## 6. 향후 계획
+
+- [ ] 즐겨찾기 기능 추가
+- [ ] 방송국 검색 기능 추가
+
+## 7. 참고 사항
 
 - Moradio는 각 방송사의 공개된 라디오 스트리밍 URL을 접속자의 디바이스로 중개하는 애플리케이션이며, Moradio는 방송을 절대 녹취하거나 재송신하지 않습니다.
 
