@@ -132,31 +132,6 @@ export default function Home() {
           )}
         </section>
         <StationsList />
-
-        {/* {STATION_CATEGORIES.map((category) => (
-          <>
-            <section key={category.id}>
-              <h2 className="py-4 text-2xl font-bold">{category.name}</h2>
-              <Embla>
-                <EmblaContainer>
-                  {category.stations.map((station) => (
-                    <EmblaSlide
-                      key={station.id}
-                      onClick={() => setStation(station)}
-                    >
-                      <Image
-                        className="rounded-lg mb-2"
-                        src={station.logo}
-                        alt={station.name}
-                      />
-                      <h3 className="text-sm">{station.name}</h3>
-                    </EmblaSlide>
-                  ))}
-                </EmblaContainer>
-              </Embla>
-            </section>
-          </>
-        ))} */}
         <section className="pt-16 pb-4 text-xs">
           <h2 className="sr-only">Moradio에 관하여...</h2>
           <hr className="py-4" />
