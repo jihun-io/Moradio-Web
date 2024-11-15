@@ -11,7 +11,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body>{children}</body>
+      <body className="min-h-[100vh] grid grid-rows-[auto,1fr,auto]">
+        {children}
+      </body>
     </html>
   );
 }

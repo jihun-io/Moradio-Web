@@ -9,6 +9,10 @@ const nextConfig = {
         source: "/radio-proxy/stream/",
         destination: "https://radio.ztqckg569b.workers.dev/stream/",
       },
+      {
+        source: "/radio-proxy/stations",
+        destination: "https://radio.ztqckg569b.workers.dev/stations",
+      },
     ];
   },
   trailingSlash: true, // 모든 URL에 끝에 슬래시 추가
