@@ -1,14 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import Image from "next/image";
-import { STATION_CATEGORIES } from "../../constants/categories";
 import { REGIONS } from "../../constants/regions";
 import { Embla, EmblaSlide, EmblaContainer } from "../components/embla";
 import MiniPlayer from "../components/miniPlayer";
 import { useAudioStore } from "../store/useAudioStore";
 import { useRegionStore } from "../store/useRegionStore";
 import StationsList from "@/components/stationsList";
+import { useEffect, useRef } from "react";
 
 export default function Home() {
   const { recentStations, setStation } = useAudioStore();
@@ -27,34 +25,41 @@ export default function Home() {
     );
   };
 
-  const dialog = document.querySelector("dialog");
-  const main = document.querySelector("main");
-  const body = document.querySelector("body");
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const mainRef = useRef<HTMLElement>(null);
 
-  const closeDialog = () => {
-    if (!dialog || !main || !body) return;
+  const handleDialogOpen = () => {
+    if (!dialogRef.current || !mainRef.current) return;
 
-    main.classList.remove("blur", "pointer-events-none");
-    body.classList.remove("overflow-hidden");
-    dialog.close();
+    mainRef.current.classList.add("blur", "pointer-events-none");
+    document.body.classList.add("overflow-hidden");
+    dialogRef.current.showModal();
   };
 
-  const handleDialog = () => {
-    if (!dialog || !main || !body) return;
+  const handleDialogClose = () => {
+    if (!dialogRef.current || !mainRef.current) return;
 
-    main.classList.add("blur", "pointer-events-none");
-    body.classList.add("overflow-hidden");
-
-    dialog.showModal();
-
-    dialog.addEventListener("close", () => {
-      closeDialog();
-    });
-
-    dialog.addEventListener("click", (e) => {
-      if (e.target === dialog) closeDialog();
-    });
+    mainRef.current.classList.remove("blur", "pointer-events-none");
+    document.body.classList.remove("overflow-hidden");
+    dialogRef.current.close();
   };
+
+  // 다이얼로그 외부 클릭 처리
+  useEffect(() => {
+    const dialog = dialogRef.current;
+
+    const handleOutsideClick = (e: Event) => {
+      if (e.target === dialog) {
+        handleDialogClose();
+      }
+    };
+
+    dialog?.addEventListener("click", handleOutsideClick);
+
+    return () => {
+      dialog?.removeEventListener("click", handleOutsideClick);
+    };
+  }, []);
 
   interface LocalButtonProps {
     id?: string;
@@ -64,7 +69,6 @@ export default function Home() {
   }
 
   const LocalButton: React.FC<LocalButtonProps> = ({
-    id,
     active,
     children,
     onClick,
@@ -85,7 +89,7 @@ export default function Home() {
         <h1 className="text-4xl font-bold">
           <img src="/images/logo/logo-text.svg" width={160} alt="Moradio" />
         </h1>
-        <button className="p-2" onClick={handleDialog}>
+        <button className="p-2" onClick={handleDialogOpen}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -102,7 +106,7 @@ export default function Home() {
           </svg>
         </button>
       </header>
-      <main className="px-8">
+      <main className="px-8" ref={mainRef}>
         <section>
           <h2 className="py-4 text-2xl font-bold">최근 재생한 방송국</h2>
           {recentStations.length > 0 ? (
@@ -173,10 +177,13 @@ export default function Home() {
       <footer className="py-4 bg-background sticky bottom-0 z-[100] shadow-inner">
         <MiniPlayer />
       </footer>
-      <dialog className="w-4/5 h-4/5 max-w-[128rem] max-h-fit rounded-lg p-8">
+      <dialog
+        className="w-4/5 h-4/5 max-w-[128rem] max-h-fit rounded-lg p-8"
+        ref={dialogRef}
+      >
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold">지역 선택</h2>
-          <button onClick={closeDialog}>
+          <button onClick={handleDialogClose}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
