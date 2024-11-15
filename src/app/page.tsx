@@ -153,7 +153,7 @@ export default function Home() {
         <MiniPlayer />
       </footer>
       <dialog
-        className="w-4/5 h-4/5 max-w-[128rem] max-h-fit rounded-lg p-8"
+        className="w-4/5 h-4/5 max-w-[25rem] max-h-fit rounded-lg p-8"
         ref={dialogRef}
       >
         <div className="flex justify-between items-center mb-4">
