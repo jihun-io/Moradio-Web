@@ -20,13 +20,9 @@ interface Station {
   }[];
 }
 
-interface StationCategory {
-  result: Station[];
-}
-
 export default function StationsList() {
-  const { recentStations, setStation } = useAudioStore();
-  const { selectedRegions, setSelectedRegions } = useRegionStore();
+  const { setStation } = useAudioStore();
+  const { selectedRegions } = useRegionStore();
 
   const [stations, setStations] = useState<Station[]>([]);
   const [isLoading, setIsLoading] = useState(true);
