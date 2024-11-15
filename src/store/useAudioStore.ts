@@ -17,7 +17,7 @@ interface Station {
   name: string;
   streamUrl: string;
   color?: string;
-  logo: StaticImageData;
+  logo: string;
 }
 
 interface AudioStore {
