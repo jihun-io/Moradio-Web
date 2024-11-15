@@ -1,13 +1,31 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { STATION_CATEGORIES } from "../../constants/categories";
+import { REGIONS } from "../../constants/regions";
 import { Embla, EmblaSlide, EmblaContainer } from "../components/embla";
 import MiniPlayer from "../components/miniPlayer";
 import { useAudioStore } from "../store/useAudioStore";
+import { useRegionStore } from "../store/useRegionStore";
+import StationsList from "@/components/stationsList";
 
 export default function Home() {
   const { recentStations, setStation } = useAudioStore();
+  const { selectedRegions, setSelectedRegions } = useRegionStore();
+
+  const handleRegionToggle = (regionId: string) => {
+    // 최소 1개 지역은 선택되어야 함
+    if (selectedRegions.length === 1 && selectedRegions.includes(regionId)) {
+      return;
+    }
+
+    setSelectedRegions(
+      selectedRegions.includes(regionId)
+        ? selectedRegions.filter((r) => r !== regionId)
+        : [...selectedRegions, regionId]
+    );
+  };
 
   const dialog = document.querySelector("dialog");
   const main = document.querySelector("main");
@@ -39,12 +57,14 @@ export default function Home() {
   };
 
   interface LocalButtonProps {
+    id?: string;
     active?: boolean;
     children: React.ReactNode;
     onClick?: () => void;
   }
 
   const LocalButton: React.FC<LocalButtonProps> = ({
+    id,
     active,
     children,
     onClick,
@@ -93,7 +113,7 @@ export default function Home() {
                     key={station.id}
                     onClick={() => setStation(station)}
                   >
-                    <Image
+                    <img
                       className="rounded-lg mb-2"
                       src={station.logo}
                       alt={station.name}
@@ -107,28 +127,32 @@ export default function Home() {
             <p className="py-4">최근 재생한 방송국 목록이 여기에 표시됩니다.</p>
           )}
         </section>
-        {STATION_CATEGORIES.map((category) => (
-          <section key={category.id}>
-            <h2 className="py-4 text-2xl font-bold">{category.name}</h2>
-            <Embla>
-              <EmblaContainer>
-                {category.stations.map((station) => (
-                  <EmblaSlide
-                    key={station.id}
-                    onClick={() => setStation(station)}
-                  >
-                    <Image
-                      className="rounded-lg mb-2"
-                      src={station.logo}
-                      alt={station.name}
-                    />
-                    <h3 className="text-sm">{station.name}</h3>
-                  </EmblaSlide>
-                ))}
-              </EmblaContainer>
-            </Embla>
-          </section>
-        ))}
+        <StationsList />
+
+        {/* {STATION_CATEGORIES.map((category) => (
+          <>
+            <section key={category.id}>
+              <h2 className="py-4 text-2xl font-bold">{category.name}</h2>
+              <Embla>
+                <EmblaContainer>
+                  {category.stations.map((station) => (
+                    <EmblaSlide
+                      key={station.id}
+                      onClick={() => setStation(station)}
+                    >
+                      <Image
+                        className="rounded-lg mb-2"
+                        src={station.logo}
+                        alt={station.name}
+                      />
+                      <h3 className="text-sm">{station.name}</h3>
+                    </EmblaSlide>
+                  ))}
+                </EmblaContainer>
+              </Embla>
+            </section>
+          </>
+        ))} */}
         <section className="pt-16 pb-4 text-xs">
           <h2 className="sr-only">Moradio에 관하여...</h2>
           <hr className="py-4" />
@@ -170,39 +194,16 @@ export default function Home() {
           </button>
         </div>
         <ul className="flex flex-wrap gap-y-4 gap-x-2 justify-start">
-          <li>
-            <LocalButton active>수도권(전국)</LocalButton>
-          </li>
-          <li>
-            <LocalButton>강원권</LocalButton>
-          </li>
-          <li>
-            <LocalButton>충북권</LocalButton>
-          </li>
-          <li>
-            <LocalButton>대전/충남권</LocalButton>
-          </li>
-          <li>
-            <LocalButton>대구/경북권</LocalButton>
-          </li>
-          <li>
-            <LocalButton>경남권</LocalButton>
-          </li>
-          <li>
-            <LocalButton>부산권</LocalButton>
-          </li>
-          <li>
-            <LocalButton>울산권</LocalButton>
-          </li>
-          <li>
-            <LocalButton>전북권</LocalButton>
-          </li>
-          <li>
-            <LocalButton>전남/광주권</LocalButton>
-          </li>
-          <li>
-            <LocalButton>제주권</LocalButton>
-          </li>
+          {REGIONS.map((region) => (
+            <li key={region.id}>
+              <LocalButton
+                active={selectedRegions.includes(region.id)}
+                onClick={() => handleRegionToggle(region.id)}
+              >
+                {region.name}
+              </LocalButton>
+            </li>
+          ))}
         </ul>
       </dialog>
     </>
