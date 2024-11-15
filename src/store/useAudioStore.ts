@@ -37,7 +37,7 @@ interface AudioStore {
 }
 
 // 로컬스토리지 키
-const RECENT_STATIONS_KEY = "radio-recent-stations";
+const RECENT_STATIONS_KEY = "radio-recent-stations-2";
 
 // 로컬스토리지에서 최근 재생 목록 불러오기
 const loadRecentStations = (): Station[] => {
