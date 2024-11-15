@@ -1,13 +1,12 @@
 "use client";
 
-import { create } from 'zustand';
-import Hls from 'hls.js';
-import { StaticImageData } from 'next/image';
+import { create } from "zustand";
+import Hls from "hls.js";
 
 // localStorage 접근을 위한 안전한 함수
 const getInitialVolume = () => {
-  if (typeof window !== 'undefined') {
-    return Number(localStorage.getItem('radio-volume')) || 1;
+  if (typeof window !== "undefined") {
+    return Number(localStorage.getItem("radio-volume")) || 1;
   }
   return 1;
 };
@@ -25,7 +24,7 @@ interface AudioStore {
   isPlaying: boolean;
   isLoading: boolean;
   volume: number;
-  hls: Hls | null;  // any 대신 Hls 타입 사용
+  hls: Hls | null; // any 대신 Hls 타입 사용
   audioElement: HTMLAudioElement | null;
   recentStations: Station[];
 
@@ -38,7 +37,7 @@ interface AudioStore {
 }
 
 // 로컬스토리지 키
-const RECENT_STATIONS_KEY = 'radio-recent-stations';
+const RECENT_STATIONS_KEY = "radio-recent-stations";
 
 // 로컬스토리지에서 최근 재생 목록 불러오기
 const loadRecentStations = (): Station[] => {
@@ -46,7 +45,7 @@ const loadRecentStations = (): Station[] => {
     const stored = localStorage.getItem(RECENT_STATIONS_KEY);
     return stored ? JSON.parse(stored) : [];
   } catch (error) {
-    console.error('Failed to load recent stations:', error);
+    console.error("Failed to load recent stations:", error);
     return [];
   }
 };
@@ -56,7 +55,7 @@ const saveRecentStations = (stations: Station[]) => {
   try {
     localStorage.setItem(RECENT_STATIONS_KEY, JSON.stringify(stations));
   } catch (error) {
-    console.error('Failed to save recent stations:', error);
+    console.error("Failed to save recent stations:", error);
   }
 };
 
@@ -64,27 +63,29 @@ export const useAudioStore = create<AudioStore>((set, get) => ({
   currentStation: null,
   isPlaying: false,
   isLoading: false,
-  volume: getInitialVolume(),  // 초기값 설정
+  volume: getInitialVolume(), // 초기값 설정
   hls: null,
   audioElement: null,
   recentStations: loadRecentStations(),
 
   setStation: async (station) => {
-    const { hls, audioElement, recentStations } = get();  // recentStations를 get()에서 가져오기
+    const { hls, audioElement, recentStations } = get(); // recentStations를 get()에서 가져오기
 
     try {
       set({ isLoading: true });
       // 최근 재생 목록 업데이트
       const updatedHistory = [
         station,
-        ...recentStations.filter(s => s.id !== station.id)  // 중복 제거
+        ...recentStations.filter((s) => s.id !== station.id), // 중복 제거
       ];
-      
+
       // 최근 재생 목록 저장
       saveRecentStations(updatedHistory);
 
       // Workers URL로 직접 요청
-      const proxyResponse = await fetch(`/radio-proxy/stream/${station.streamUrl}`);
+      const proxyResponse = await fetch(
+        `/radio-proxy/stream/${station.streamUrl}`
+      );
 
       // 리다이렉트된 URL 가져오기
       const finalUrl = proxyResponse.url;
@@ -100,26 +101,25 @@ export const useAudioStore = create<AudioStore>((set, get) => ({
 
         newHls.on(Hls.Events.MANIFEST_PARSED, () => {
           audioElement.play().catch(console.error);
-          set({ 
+          set({
             currentStation: station,
-            recentStations: updatedHistory,  // 상태 업데이트에 최근 재생 목록 추가
+            recentStations: updatedHistory, // 상태 업데이트에 최근 재생 목록 추가
             hls: newHls,
             isPlaying: true,
-            isLoading: false
-
+            isLoading: false,
           });
         });
-      } else if (audioElement?.canPlayType('application/vnd.apple.mpegurl')) {
+      } else if (audioElement?.canPlayType("application/vnd.apple.mpegurl")) {
         audioElement.src = finalUrl;
         audioElement.play().catch(console.error);
-        set({ 
+        set({
           currentStation: station,
-          recentStations: updatedHistory,  // 상태 업데이트에 최근 재생 목록 추가
-          isPlaying: true 
+          recentStations: updatedHistory, // 상태 업데이트에 최근 재생 목록 추가
+          isPlaying: true,
         });
       }
     } catch (error) {
-      console.error('Failed to load station:', error);
+      console.error("Failed to load station:", error);
       set({ isPlaying: false, isLoading: false });
     }
   },
@@ -127,51 +127,54 @@ export const useAudioStore = create<AudioStore>((set, get) => ({
   togglePlay: () => {
     const { audioElement, isPlaying, hls, currentStation } = get();
     if (!audioElement) return;
-  
+
     if (isPlaying) {
       // 완전 정지
       if (hls) {
         hls.destroy();
         set({ hls: null });
       }
-      audioElement.src = '';
+      audioElement.src = "";
       audioElement.load();
       set({ isPlaying: false });
     } else if (currentStation) {
       // 재시작
       set({ isLoading: true });
-      
+
       fetch(`/radio-proxy/stream/${currentStation.streamUrl}`)
-        .then(response => {
+        .then((response) => {
           const finalUrl = response.url;
-          
+
           if (Hls.isSupported()) {
             const newHls = new Hls();
             newHls.loadSource(finalUrl);
             newHls.attachMedia(audioElement);
-  
+
             newHls.on(Hls.Events.MANIFEST_PARSED, () => {
               audioElement.play().catch(console.error);
-              set({ 
+              set({
                 hls: newHls,
                 isPlaying: true,
-                isLoading: false
+                isLoading: false,
               });
             });
-          } else if (audioElement.canPlayType('application/vnd.apple.mpegurl')) {
+          } else if (
+            audioElement.canPlayType("application/vnd.apple.mpegurl")
+          ) {
             audioElement.src = finalUrl;
-            audioElement.play()
+            audioElement
+              .play()
               .then(() => {
-                set({ 
+                set({
                   isPlaying: true,
-                  isLoading: false
+                  isLoading: false,
                 });
               })
               .catch(console.error);
           }
         })
-        .catch(error => {
-          console.error('Failed to restart playback:', error);
+        .catch((error) => {
+          console.error("Failed to restart playback:", error);
           set({ isLoading: false });
         });
     }
@@ -181,7 +184,7 @@ export const useAudioStore = create<AudioStore>((set, get) => ({
     const { audioElement } = get();
     if (audioElement) {
       audioElement.volume = volume;
-      localStorage.setItem('radio-volume', volume.toString());
+      localStorage.setItem("radio-volume", volume.toString());
       set({ volume });
     }
   },
@@ -191,8 +194,9 @@ export const useAudioStore = create<AudioStore>((set, get) => ({
     audioElement.volume = get().volume;
   },
 
-  clearHistory: () => {  // clearHistory 메서드 구현 추가
+  clearHistory: () => {
+    // clearHistory 메서드 구현 추가
     localStorage.removeItem(RECENT_STATIONS_KEY);
     set({ recentStations: [] });
-  }
+  },
 }));
