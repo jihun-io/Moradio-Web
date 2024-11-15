@@ -34,6 +34,7 @@ interface AudioStore {
   setVolume: (volume: number) => void;
   initAudio: (audioElement: HTMLAudioElement) => void;
   clearHistory: () => void;
+  updateRecentStations: (stations: Station[]) => void; // 메서드 추가
 }
 
 // 로컬스토리지 키
@@ -57,6 +58,15 @@ const saveRecentStations = (stations: Station[]) => {
   } catch (error) {
     console.error("Failed to save recent stations:", error);
   }
+};
+
+// 로컬스토리지에 저장된 최근 재생 목록 선택 삭제
+export const removeRecentStation = (stationId: string) => {
+  const stations = loadRecentStations();
+  const updatedStations = stations.filter((s) => s.id !== stationId);
+  saveRecentStations(updatedStations);
+  // store 상태 업데이트 추가
+  useAudioStore.getState().updateRecentStations(updatedStations);
 };
 
 export const useAudioStore = create<AudioStore>((set, get) => ({
@@ -198,5 +208,9 @@ export const useAudioStore = create<AudioStore>((set, get) => ({
     // clearHistory 메서드 구현 추가
     localStorage.removeItem(RECENT_STATIONS_KEY);
     set({ recentStations: [] });
+  },
+
+  updateRecentStations: (stations) => {
+    set({ recentStations: stations });
   },
 }));

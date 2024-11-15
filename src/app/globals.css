@@ -44,6 +44,14 @@ body {
   cursor: pointer;
 }
 
+.embla__slide > button {
+  display: none;
+}
+
+.embla__slide:hover > button {
+  display: block;
+}
+
 input.volume-slider {
   -webkit-appearance: none;
   width: 100%;

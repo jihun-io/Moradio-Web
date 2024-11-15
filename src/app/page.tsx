@@ -3,7 +3,7 @@
 import { REGIONS } from "../../constants/regions";
 import { Embla, EmblaSlide, EmblaContainer } from "../components/embla";
 import MiniPlayer from "../components/miniPlayer";
-import { useAudioStore } from "../store/useAudioStore";
+import { useAudioStore, removeRecentStation } from "../store/useAudioStore";
 import { useRegionStore } from "../store/useRegionStore";
 import StationsList from "@/components/stationsList";
 import { useEffect, useRef } from "react";
@@ -116,7 +116,30 @@ export default function Home() {
                   <EmblaSlide
                     key={station.id}
                     onClick={() => setStation(station)}
+                    className="recent-station relative"
                   >
+                    <button
+                      className="recent-station-del-btn absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 shadow-lg rounded-full bg-white p-1 "
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        removeRecentStation(station.id);
+                      }}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="size-5"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M6 18 18 6M6 6l12 12"
+                        />
+                      </svg>
+                    </button>
                     <img
                       className="rounded-lg mb-2"
                       src={station.logo}
