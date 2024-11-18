@@ -11,6 +11,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
+      <head>
+        <meta
+          http-equiv="Content-Security-Policy"
+          content="upgrade-insecure-requests"
+        />
+      </head>
       <body className="min-h-[100vh] grid grid-rows-[auto,1fr,auto]">
         {children}
       </body>
