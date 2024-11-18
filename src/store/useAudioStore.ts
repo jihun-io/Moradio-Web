@@ -38,7 +38,7 @@ interface AudioStore {
 }
 
 // 로컬스토리지 키
-const RECENT_STATIONS_KEY = "radio-recent-stations-2";
+const RECENT_STATIONS_KEY = "radio-recent-stations-3";
 
 // 로컬스토리지에서 최근 재생 목록 불러오기
 const loadRecentStations = (): Station[] => {
@@ -61,9 +61,9 @@ const saveRecentStations = (stations: Station[]) => {
 };
 
 // 로컬스토리지에 저장된 최근 재생 목록 선택 삭제
-export const removeRecentStation = (stationId: string) => {
+export const removeRecentStation = (stationUrl: string) => {
   const stations = loadRecentStations();
-  const updatedStations = stations.filter((s) => s.id !== stationId);
+  const updatedStations = stations.filter((s) => s.streamUrl !== stationUrl);
   saveRecentStations(updatedStations);
   // store 상태 업데이트 추가
   useAudioStore.getState().updateRecentStations(updatedStations);
@@ -86,7 +86,7 @@ export const useAudioStore = create<AudioStore>((set, get) => ({
       // 최근 재생 목록 업데이트
       const updatedHistory = [
         station,
-        ...recentStations.filter((s) => s.id !== station.id), // 중복 제거
+        ...recentStations.filter((s) => s.streamUrl !== station.streamUrl), // 중복 제거
       ];
 
       // 최근 재생 목록 저장
