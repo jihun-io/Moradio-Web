@@ -138,7 +138,7 @@ export default function StationsList() {
             } else {
               return station.stations.map((channel) => (
                 <EmblaSlide
-                  key={station.id}
+                  key={channel.name}
                   onClick={() =>
                     setStation({
                       id: `${station.id}`,
