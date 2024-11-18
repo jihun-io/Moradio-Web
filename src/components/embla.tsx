@@ -37,10 +37,8 @@ export function Embla({ children }: EmblaProps) {
   const [emblaRef] = useEmblaCarousel();
 
   return (
-    <>
-      <div className="embla" ref={emblaRef}>
-        {children}
-      </div>
-    </>
+    <div className="embla" ref={emblaRef}>
+      {children}
+    </div>
   );
 }
