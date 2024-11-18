@@ -1,3 +1,5 @@
+"use client";
+
 // stores/useRegionStore.ts
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
