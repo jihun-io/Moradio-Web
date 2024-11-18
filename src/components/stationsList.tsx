@@ -86,6 +86,8 @@ export default function StationsList() {
       category = "종교 방송";
     } else if (category === "local") {
       category = "지역 방송";
+    } else if (category === "traffic") {
+      category = "TBN";
     } else if (category === "extra") {
       category = "기타";
     }
