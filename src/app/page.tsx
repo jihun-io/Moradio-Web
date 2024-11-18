@@ -114,7 +114,7 @@ export default function Home() {
               <EmblaContainer>
                 {recentStations.map((station) => (
                   <EmblaSlide
-                    key={station.id}
+                    key={station.streamUrl}
                     onClick={() => setStation(station)}
                     className="recent-station relative"
                   >
@@ -122,7 +122,7 @@ export default function Home() {
                       className="recent-station-del-btn absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 shadow-lg rounded-full bg-white p-1 "
                       onClick={(e) => {
                         e.stopPropagation();
-                        removeRecentStation(station.id);
+                        removeRecentStation(station.streamUrl);
                       }}
                     >
                       <svg
