@@ -142,7 +142,11 @@ export default function StationsList() {
                   onClick={() =>
                     setStation({
                       id: `${station.id}`,
-                      streamUrl: `?stn=${station.id.toLowerCase()}`,
+                      streamUrl: `?stn=${station.id.toLowerCase()}${
+                        channel.city === "korea" || channel.city === "seoul"
+                          ? ""
+                          : `&city=${channel.city}`
+                      }`,
                       name: `${channel.name}`,
                       logo: `/images/stations/${station.id}.svg`,
                     })
