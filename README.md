@@ -1,5 +1,5 @@
 > [!IMPORTANT]  
-> 이 프로젝트는 종료되었으며, Moradio Electron 프로젝트로 이어집니다. 웹 버전 Moradio는 더 이상 이용할 수 없지만, Electron 데스크톱 앱으로 Moradio를 PC에서도 이용하실 수 있습니다. [**Moradio Electron** 리포지토리로 이동하기...](https://github.com/jihun-io/Moradio-Electron)
+> 이 프로젝트는 종료되었으며, Moradio Electron 프로젝트로 이어집니다. 웹 버전 Moradio는 더 이상 이용할 수 없지만, Electron 데스크톱 앱으로 Moradio를 PC에서도 이용하실 수 있습니다. [**Moradio Desktop** 리포지토리로 이동하기...](https://github.com/jihun-io/Moradio-Electron)
 
 # 웹 버전 Moradio
 
