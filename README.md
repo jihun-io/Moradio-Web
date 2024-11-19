@@ -1,3 +1,6 @@
+> [!IMPORTANT]  
+> 이 프로젝트는 종료되었으며, Moradio Electron 프로젝트로 이어집니다. 웹 버전 Moradio는 더 이상 이용할 수 없지만, Electron 데스크톱 앱으로 Moradio를 PC에서도 이용하실 수 있습니다. [**Moradio Electron** 리포지토리로 이동하기...](https://github.com/jihun-io/Moradio-Electron)
+
 # 웹 버전 Moradio
 
 ![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=Nextdotjs&logoColor=white)
@@ -11,7 +14,7 @@
 
 > 모두 모아둔 모두의 라디오
 
-- https://moradio.jihun.io
+
 
 ## 1. 프로젝트 소개
 
